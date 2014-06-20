@@ -1,4 +1,3 @@
-video-parallax
-==============
+Video Parallax Plugin
+=====================
 
-video parallax
