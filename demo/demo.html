@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Parallax</title>
+    <script src="lib/jquery-1.11.1.js"></script>
+    <script>jQuery.noConflict();</script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+<body>
+    <div style="min-height: 1000px; background-color: olive"></div>
+    <div>
+        <div class="wrap-video" style="position: relative">
+            <div class="video-bg" style="">
+                <div class="video-overlay"></div>
+                <div class="content">
+                    <p> </p>
+                    <h1 style="text-align: center;">Hello every body</h1>
+                    <h1 style="text-align: center;">this is demo vimeo video parralax</h1>
+                    <h1 style="text-align: center;">My name Ducna :)</h1>
+                    <h1 style="text-align: center;"> </h1>
+                    <h1 style="text-align: center;"> </h1>
+                </div>
+                <iframe class="vid-bg" id="video_vimeo" src="http://player.vimeo.com/video/50834315?api=1&autoplay=1&loop=1&playbar=0&&player_id=video_vimeo" style="">
+
+                </iframe>
+            </div>
+    </div>
+    </div>
+    <div style="min-height: 1000px; background-color: olive"></div>
+
+    <script>
+        // use api mute vimeo - that ok with server
+
+        var f = jQuery('.wrap-video iframe');
+        var url = f.attr('src').split('?')[0];
+        function post(action, value) {
+            var data = { method: action };
+
+            if (value) {
+                data.value = value;
+            }
+            f[0].contentWindow.postMessage(JSON.stringify(data), url);
+        }
+        if (window.addEventListener){
+            window.addEventListener('message', onMessageReceived, false);
+        }
+        else {
+            window.attachEvent('onmessage', onMessageReceived, false);
+        }
+        function onMessageReceived(e) {
+
+            var data = JSON.parse(e.data);
+            switch (data.event) {
+                case 'ready':
+                    onReady();
+                    break;
+
+            }
+        }
+        function onReady() {
+            post('setVolume','0');
+            f.css("visibility","visible");
+        }
+
+
+    //video parallax
+    jQuery(document).ready(function(){
+        var ratio = 1;        //ratio video with div parent; eg: 1 = 100%, 1.5 = 150%...
+        var wrap = jQuery('.wrap-video');
+        var width_wrap = parseInt(wrap.css("width"));
+        var height_wrap = parseInt(wrap.css("height"));
+        var width_iframe = width_wrap * ratio;
+        var height_iframe = width_iframe * 0.56;
+        var left =(width_wrap - width_iframe)/2;
+
+        var iframe_vimeo = wrap.find("iframe");
+        iframe_vimeo.css("height",height_iframe);
+        iframe_vimeo.css("max-height",height_iframe);
+        iframe_vimeo.css("width",width_iframe);
+        iframe_vimeo.css("max-width",width_iframe);
+
+        var top = -1 * (height_iframe - height_wrap)/2 ;
+        iframe_vimeo.css("top",top);
+        iframe_vimeo.css("left",left);
+
+        jQuery(window).scroll(function(){
+            parallax(top);
+        });
+
+        function parallax(top) {
+            var scrollTop = jQuery(window).scrollTop();
+            var window_height = jQuery(window).height();
+            //console.log(window_height)
+            var wrap_offset_top = jQuery(wrap).offset().top;
+            var  scroll_to_iframe = window_height - wrap_offset_top;
+
+
+
+            var change_value = window_height + height_wrap;
+            var n = Math.abs(top/change_value) ;
+            var scrollToCenter;
+            var change_top;
+
+            if(top <0) {
+                if (scroll_to_iframe>0) {
+                    //ngay o tren dau
+                    //scrollToCeter la khoang cach scroll toi giua wrap
+                    scrollToCenter = 0.5 * height_wrap;
+
+                    if(scrollTop >= scrollToCenter) {
+                        change_top =  -1 *(scrollTop - scrollToCenter);
+                        if(change_top>= top) {
+                            iframe_vimeo.css("top",top - change_top);
+
+                        }
+                    }
+
+                } else {
+                    scroll_to_iframe = scroll_to_iframe * -1;
+                    scrollToCenter = scroll_to_iframe + 0.5 * height_wrap;
+                    if((scrollTop >= scroll_to_iframe) && (scrollTop >= scrollToCenter)) {
+                        change_top =  -1 *(scrollTop - scrollToCenter);
+                        console.log(change_top);
+                        if(change_top>= top*2) {
+                            iframe_vimeo.css("top",change_top);
+                        }
+                    }
+                }
+
+            } else {
+            }
+        }
+
+
+
+    });
+
+
+</script>
+</body>
+</html>
