@@ -4,13 +4,13 @@
     <title>Video Parallax</title>
     <script src="lib/jquery-1.11.1.js"></script>
     <script>jQuery.noConflict();</script>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style2.css">
 </head>
 <body>
 <div style="min-height: 1000px; background-color: olive"></div>
 <div>
-    <div class="wrap-video" style="position: relative">
-        <div class="video-bg" style="">
+    <div class="container" style="position: relative">
+        <div class="container-bg" style="">
             <div class="video-overlay"></div>
             <div class="content">
                 <p> </p>
@@ -20,7 +20,7 @@
                 <h1 style="text-align: center;"> </h1>
                 <h1 style="text-align: center;"> </h1>
             </div>
-            <div class="vid-bg">
+            <div class="video-bg">
                 <video id="video0" preload="auto" autoplay="autoplay" loop="loop" muted="muted"  controls>
                     <source src="http://joomlaextension.zoodemo.com/j3x/images/steven.mp4" type="video/mp4">
                     <source src="http://joomlaextension.zoodemo.com/j3x/images/steven.webm" type="video/webm">
@@ -36,35 +36,62 @@
 
     //video parallax
     jQuery(document).ready(function(){
-        var ratio = 1;        //ratio video with div parent; eg: 1 = 100%, 1.5 = 150%...
-        var wrap = jQuery('.wrap-video');
-        var width_wrap = parseInt(wrap.css("width"));
-        var height_wrap = parseInt(wrap.css("height"));
-        var width_video = width_wrap * ratio;
-        var height_video = width_video * 0.56;
-        var left =(width_wrap - width_video)/2;
 
-        //chieu cao man hinh web browse
-        var window_height = jQuery(window).height();
-        //div wrap cach top
-        var wrap_offset_top = jQuery(wrap).offset().top;
-        //khoang cach de scroll toi video
-        var  scroll_to_video = window_height - wrap_offset_top;
+        /*
+        New style parallax video - idea of Long
+         */
+        function checkElementOnWindow(element){
+            var rect = element.getBoundingClientRect();
+            return (rect.bottom > 0 && rect.bottom <= rect.height) ||
+                    (rect.top > 0 && rect.top <= (window.innerHeight || document.documentElement.clientHeight));
+        }
+        function videoParallax(video) {
+
+            var windowHeight = window.innerHeight || document.documentElement.clientHeight,
+                    videoDemension = getDemensions(video),
+                    containerDemension = getDemensions(video.parentNode.parentNode.parentNode),
+                    maxScrollMove = windowHeight + containerDemension.height,
+                    maxVideoMove = videoDemension.height - containerDemension.height,
+                    ratioScroll = maxVideoMove/maxScrollMove,
+                    topChange;
 
 
-        var video_tag = wrap.find("video");
-        video_tag.css("max-height",height_video);
-        video_tag.css("width",width_video);
-        video_tag.css("max-width",width_video);
+            videoDemension = getDemensions(video);
+            var container = video.parentNode.parentNode.parentNode;
+            containerDemension = getDemensions(container);
+            maxVideoMove = videoDemension.height - containerDemension.height;
+            ratioScroll = maxVideoMove/maxScrollMove;
 
-        var top = -1 * (height_video - height_wrap)/2 ;
-        video_tag.css("top",top);
-        video_tag.css("left",left);
+            if(checkElementOnWindow(container)) {
+                topChange = Math.floor((containerDemension.top - windowHeight) * ratioScroll);
+                video.style.top = topChange+"px";
 
+            }
+        }
+
+        var video = document.getElementById("video0");
+                function getDemensions(video) {
+            var rect = video.getBoundingClientRect();
+            return rect;
+        }
+
+        videoParallax(video);
         jQuery(window).scroll(function(){
-            parallax(top);
+            videoParallax(video);
         });
-
+        /*
+        var windowHeight = window.innerHeight || document.documentElement.clientHeight,
+                containerRect = this.container.getBoundingClientRect(),
+                elementDimensions = elm.getDimensions(),
+                maxWindowScroll = windowHeight + containerRect.height,
+                maxElementScroll = elementDimensions.height - containerRect.height,
+                scrollRatio = maxElementScroll / maxWindowScroll,
+                amount = Math.floor((containerRect.top - windowHeight) * scrollRatio);
+                */
+        /*
+        end new style
+         */
+        /*
         function parallax(top) {
             //vi tri scroll
             var scrollTop = jQuery(window).scrollTop();
@@ -106,7 +133,7 @@
             } else {
             }
         }
-
+*/
 
 
     });
