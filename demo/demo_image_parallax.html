@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Image Parallax</title>
+    <title>Image Parallax 1</title>
     <script src="lib/jquery-1.11.1.js"></script>
     <script>jQuery.noConflict();</script>
     <link rel="stylesheet" type="text/css" href="style.css">
@@ -11,12 +11,67 @@
 <div style="min-height: 1000px; background-color: olive"></div>
 <div class="container">
     <div class="container-bg">
-        <div class="image-overlay"><img src="Jellyfish.jpg"></div>
-        <div class="content"></div>
-
+        <div class="image-overlay"><img src="Jellyfish.jpg" style="width: 100%; display: none"></div>
+        <!--
+        <div class="content" style="background: url('Jellyfish.jpg') 50% 0px/100% auto repeat fixed; min-height:300px;"></div>
+        -->
+        <div class="image-parallax" style="min-height: 300px;background: url('Jellyfish.jpg') repeat scroll center center / cover  rgba(0, 0, 0, 0); background-size: 100% auto;"></div>
     </div>
 </div>
 <div style="min-height: 1000px; background-color: olive"></div>
+<script>
+    jQuery(document).ready(function(){
 
+        /*
+        thu nghiem 1 parallax
+         */
+        //parallax-section
+        function moveParallax(e) {
+            var t = jQuery(e).visible(true);
+            if (t && jQuery(window).width() > 1024) {
+                var n = parseInt(jQuery(e).position().top);
+                var r = n - jQuery(window).scrollTop();
+                var i = -(r / 1.7);
+                var s = "50% " + i + "px";
+                jQuery(e).css({
+                    backgroundPosition: s
+                })
+            }
+        }(function (e) {
+            e.fn.extend({
+                parallax: function (e) {
+                    return this.each(function () {
+                        var e = jQuery(this);
+                        moveParallax(e);
+                        jQuery(window).scroll(function () {
+                            moveParallax(e)
+                        })
+                    })
+                }
+            })
+        })(jQuery);
+        (function(d){
+            d.fn.visible = function (e, i) {
+                var a = d(this).eq(0),
+                        f = a.get(0),
+                        c = d(window),
+                        g = c.scrollTop();
+                c = g + c.height();
+                var b = a.offset().top,
+                        h = b + a.height();
+                a = e === true ? h : b;
+                b = e === true ? b : h;
+                return !!(i === true ? f.offsetWidth * f.offsetHeight : true) && b <= c && a >= g
+            }
+        })(jQuery);
+        if (jQuery().parallax) {
+            jQuery(".image-parallax").parallax();
+        }
+        /*
+        end thu nghiem 1
+         */
+
+    });
+</script>
 </body>
 </html>

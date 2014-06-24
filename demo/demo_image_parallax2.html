@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Parallax 1</title>
+    <script src="lib/jquery-1.11.1.js"></script>
+    <script>jQuery.noConflict();</script>
+    <link rel="stylesheet" type="text/css" href="style3.css">
+</head>
+<body>
+<div style="min-height: 1000px; background-color: olive"></div>
+<div class="image-parallax-container" >
+    <div class="image-parallax-container-bg">
+        <div class="image-parallax-overlay"><img src="Jellyfish.jpg" style="width: 100%; display: none"></div>
+        <div class="content">
+            <p> </p>
+            <h1 style="text-align: center;">Hello every body</h1>
+            <h1 style="text-align: center;">this is demo vimeo video parralax</h1>
+            <h1 style="text-align: center;">My name Ducna :)</h1>
+            <h1 style="text-align: center;"> </h1>
+            <h1 style="text-align: center;"> </h1>
+        </div>
+        <img id="image0" class="image-parallax" src="Jellyfish.jpg" />
+    </div>
+</div>
+<div style="min-height: 1000px; background-color: olive"></div>
+<script>
+    jQuery(document).ready(function(){
+        function checkElementOnWindow(element){
+            var rect = element.getBoundingClientRect();
+            return (rect.bottom > 0 && rect.bottom <= rect.height) ||
+                    (rect.top > 0 && rect.top <= (window.innerHeight || document.documentElement.clientHeight));
+        }
+        function imageParallax(image) {
+
+            var windowHeight = window.innerHeight || document.documentElement.clientHeight,
+                    imageDemension,
+                    ratioScroll ,
+                    topChange;
+
+
+            imageDemension = getDemensions(image);
+            var container = jQuery(image).parents(".image-parallax-container").first().get(0);
+
+
+            var containerDemension = getDemensions(container);
+            var maxScrollMove = windowHeight + containerDemension.height;
+
+            var maxImageMove = imageDemension.height - containerDemension.height;
+            ratioScroll = maxImageMove/maxScrollMove;
+            if(checkElementOnWindow(container)) {
+                topChange = Math.floor((containerDemension.top - windowHeight) * ratioScroll);
+                image.style.top = topChange+"px";
+
+            }
+        }
+
+        var image = document.getElementById("image0");
+        function getDemensions(image) {
+            var rect = image.getBoundingClientRect();
+            return rect;
+        }
+
+        imageParallax(image);
+        jQuery(window).scroll(function(){
+            imageParallax(image);
+        });
+    });
+</script>
+</body>
+</html>
