@@ -79,62 +79,6 @@
         jQuery(window).scroll(function(){
             videoParallax(video);
         });
-        /*
-        var windowHeight = window.innerHeight || document.documentElement.clientHeight,
-                containerRect = this.container.getBoundingClientRect(),
-                elementDimensions = elm.getDimensions(),
-                maxWindowScroll = windowHeight + containerRect.height,
-                maxElementScroll = elementDimensions.height - containerRect.height,
-                scrollRatio = maxElementScroll / maxWindowScroll,
-                amount = Math.floor((containerRect.top - windowHeight) * scrollRatio);
-                */
-        /*
-        end new style
-         */
-        /*
-        function parallax(top) {
-            //vi tri scroll
-            var scrollTop = jQuery(window).scrollTop();
-
-
-
-
-
-            var change_value = window_height + height_wrap;
-            var n = Math.abs(top/change_value) ;
-            var scrollToCenter;
-            var change_top;
-
-            if(top <0) {
-                if (scroll_to_video>0) {
-                    //ngay o tren dau
-                    //scrollToCeter la khoang cach scroll toi giua wrap
-                    scrollToCenter = 0.5 * height_wrap;
-
-                    if(scrollTop >= scrollToCenter) {
-                        change_top =  -1 *(scrollTop - scrollToCenter);
-                        if(change_top>= top) {
-                            video_tag.css("top",top - change_top);
-
-                        }
-                    }
-
-                } else {
-                    scroll_to_video = scroll_to_video * -1;
-                    scrollToCenter = scroll_to_video + 0.5 * height_wrap;
-                    if((scrollTop >= scroll_to_video) && (scrollTop >= scrollToCenter)) {
-                        change_top =  -1 *(scrollTop - scrollToCenter);
-                        if(change_top>= top*2) {
-                            video_tag.css("top",change_top);
-                        }
-                    }
-                }
-
-            } else {
-            }
-        }
-*/
-
 
     });
 
