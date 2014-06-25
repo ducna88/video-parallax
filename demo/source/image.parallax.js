@@ -23,12 +23,41 @@
         var left = -(imageDemension.width - containerDemension.width)/2;
         if(checkElementOnWindow(container)) {
             topChange = Math.floor((containerDemension.top - windowHeight) * ratioScroll);
-            image.style.top = topChange+"px";
-            image.style.left = left +"px";
+            if(check3D()) {
+                var translate3D = 'translate3d('+left+'px, '+topChange+'px, 0px)';
+
+                    image.style.cssText =
+                        '-moz-transform:' + translate3D +
+                        ';-ms-transform:' + translate3D +
+                        ';-o-transform:' + translate3D +
+                        ';-webkit-transform:' + translate3D +
+                        ';transform:' + translate3D;
+                ;
+            } else {
+                image.style.top = topChange+"px";
+                image.style.left = left +"px";
+            }
+
 
         }
     }
 
+    function check3D() {
+        var translate3D = 'translate3d(0px, 0px, 0px)',
+            divElm = document.createElement('div'),
+            matches;
+
+        divElm.style.cssText =
+            '-moz-transform:' + translate3D +
+                ';-ms-transform:' + translate3D +
+                ';-o-transform:' + translate3D +
+                ';-webkit-transform:' + translate3D +
+                ';transform:' + translate3D;
+        matches = divElm.style.cssText.match(/translate3d\(0px, 0px, 0px\)/g);
+
+        var support3d = matches !== null && matches.length === 1;
+        return support3d;
+    }
 
     function getDemensions(image) {
         var rect = image.getBoundingClientRect();
