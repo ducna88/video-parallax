@@ -20,9 +20,11 @@
 
         var maxImageMove = imageDemension.height - containerDemension.height;
         ratioScroll = maxImageMove/maxScrollMove;
+        var left = -(imageDemension.width - containerDemension.width)/2;
         if(checkElementOnWindow(container)) {
             topChange = Math.floor((containerDemension.top - windowHeight) * ratioScroll);
             image.style.top = topChange+"px";
+            image.style.left = left +"px";
 
         }
     }
