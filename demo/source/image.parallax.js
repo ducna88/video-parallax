@@ -3,17 +3,15 @@
         return (rect.bottom > 0 && rect.bottom <= rect.height) ||
             (rect.top > 0 && rect.top <= (window.innerHeight || document.documentElement.clientHeight));
     }
-    function imageParallax(image) {
+    function imageParallax(image,check3D) {
 
         var windowHeight = window.innerHeight || document.documentElement.clientHeight,
             imageDemension,
             ratioScroll ,
             topChange;
 
-
         imageDemension = getDemensions(image);
         var container = jQuery(image).parents(".image-parallax-container").first().get(0);
-
 
         var containerDemension = getDemensions(container);
         var maxScrollMove = windowHeight + containerDemension.height;
@@ -23,9 +21,8 @@
         var left = -(imageDemension.width - containerDemension.width)/2;
         if(checkElementOnWindow(container)) {
             topChange = Math.floor((containerDemension.top - windowHeight) * ratioScroll);
-            if(check3D()) {
+            if(check3D) {
                 var translate3D = 'translate3d('+left+'px, '+topChange+'px, 0px)';
-
                     image.style.cssText =
                         '-moz-transform:' + translate3D +
                         ';-ms-transform:' + translate3D +

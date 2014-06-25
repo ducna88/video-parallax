@@ -28,11 +28,13 @@
     jQuery(document).ready(function(){
 
         var image = document.getElementById("image0");
-        imageParallax(image);
-        console.log(check3D());
+
+        var check3d = check3D();
+        console.log(check3d);
+        imageParallax(image,check3d);
         jQuery(window).scroll(function(){
 
-            imageParallax(image);
+            imageParallax(image,check3d);
         });
     });
 </script>
