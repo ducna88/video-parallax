@@ -4,14 +4,16 @@
     <title>Video Parallax</title>
     <script src="lib/jquery-1.11.1.js"></script>
     <script>jQuery.noConflict();</script>
+    <script src="source/video.parallax.js"></script>
+
     <link rel="stylesheet" type="text/css" href="style2.css">
 </head>
 <body>
 <div style="min-height: 1000px; background-color: olive"></div>
 <div>
-    <div class="container" style="position: relative">
-        <div class="container-bg" style="">
-            <div class="video-overlay"></div>
+    <div class="video-parallax-container" style="position: relative">
+        <div class="video-parallax-container-bg" style="">
+            <div class="video-parallax-overlay"></div>
             <div class="content">
                 <p> </p>
                 <h1 style="text-align: center;">Hello every body</h1>
@@ -40,44 +42,11 @@
         /*
         New style parallax video - idea of Long
          */
-        function checkElementOnWindow(element){
-            var rect = element.getBoundingClientRect();
-            return (rect.bottom > 0 && rect.bottom <= rect.height) ||
-                    (rect.top > 0 && rect.top <= (window.innerHeight || document.documentElement.clientHeight));
-        }
-        function videoParallax(video) {
-
-            var windowHeight = window.innerHeight || document.documentElement.clientHeight,
-                    videoDemension = getDemensions(video),
-                    containerDemension = getDemensions(video.parentNode.parentNode.parentNode),
-                    maxScrollMove = windowHeight + containerDemension.height,
-                    maxVideoMove = videoDemension.height - containerDemension.height,
-                    ratioScroll = maxVideoMove/maxScrollMove,
-                    topChange;
-
-
-            videoDemension = getDemensions(video);
-            var container = video.parentNode.parentNode.parentNode;
-            containerDemension = getDemensions(container);
-            maxVideoMove = videoDemension.height - containerDemension.height;
-            ratioScroll = maxVideoMove/maxScrollMove;
-
-            if(checkElementOnWindow(container)) {
-                topChange = Math.floor((containerDemension.top - windowHeight) * ratioScroll);
-                video.style.top = topChange+"px";
-
-            }
-        }
-
         var video = document.getElementById("video0");
-                function getDemensions(video) {
-            var rect = video.getBoundingClientRect();
-            return rect;
-        }
-
-        videoParallax(video);
+        var check3d = check3D();
+        videoParallax(video,check3d);
         jQuery(window).scroll(function(){
-            videoParallax(video);
+            videoParallax(video,check3d);
         });
 
     });
