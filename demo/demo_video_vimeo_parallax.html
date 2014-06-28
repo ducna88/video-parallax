@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Video Parallax</title>
+    <title>Video Vimeo Parallax</title>
     <script src="lib/jquery-1.11.1.js"></script>
     <script>jQuery.noConflict();</script>
     <script src="source/video.vimeo.parallax.js"></script>
@@ -10,7 +10,6 @@
 </head>
 <body>
 <div style="min-height: 1000px; background-color: olive"></div>
-<div>
     <div class="video-parallax-container" style="position: relative">
         <div class="video-parallax-container-bg" style="">
             <div class="video-parallax-overlay"></div>
@@ -23,34 +22,60 @@
                 <h1 style="text-align: center;"> </h1>
             </div>
             <div class="video-bg">
-                <video id="video0" preload="auto" autoplay="autoplay" loop="loop" muted="muted"  controls>
-                    <source src="http://joomlaextension.zoodemo.com/j3x/images/steven.mp4" type="video/mp4">
-                    <source src="http://joomlaextension.zoodemo.com/j3x/images/steven.webm" type="video/webm">
-                    Your browser does not support the video tag.
-                </video>
+                <iframe id="video0" src="http://player.vimeo.com/video/50834315?api=1&autoplay=1&loop=1&playbar=0&&player_id=video_vimeo" style="">
+
+                </iframe>
             </div>
 
         </div>
     </div>
-</div>
 <div style="min-height: 1000px; background-color: olive"></div>
 <script>
+    // use api mute vimeo - that ok with server
+    var f = jQuery('.video-parallax-container iframe');
+    var url = f.attr('src').split('?')[0];
+    function post(action, value) {
+        var data = { method: action };
 
-    //video parallax
+        if (value) {
+            data.value = value;
+        }
+        f[0].contentWindow.postMessage(JSON.stringify(data), url);
+    }
+    if (window.addEventListener){
+        window.addEventListener('message', onMessageReceived, false);
+
+    }
+    else {
+        window.attachEvent('onmessage', onMessageReceived, false);
+
+    }
+    function onMessageReceived(e) {
+        console.log(f);
+
+        var data = JSON.parse(e.data);
+        switch (data.event) {
+            case 'ready':
+                onReady();
+                break;
+
+        }
+    }
+    function onReady() {
+        post('setVolume','0');
+        f.css("visibility","visible");
+    }
     jQuery(document).ready(function(){
-
-        /*
-        New style parallax video - idea of Long
-         */
         var video = document.getElementById("video0");
+        loadSize(video);
         var check3d = check3D();
         videoParallax(video,check3d);
         jQuery(window).scroll(function(){
             videoParallax(video,check3d);
         });
 
-    });
 
+    });
 
 </script>
 </body>

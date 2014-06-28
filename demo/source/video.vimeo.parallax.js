@@ -8,23 +8,22 @@ function videoParallax(video,check3D) {
     if(checkElementOnWindow(container)) {
 
 
-    var windowHeight = window.innerHeight || document.documentElement.clientHeight,
-        videoDemension,
-        containerDemension,
-        maxScrollMove = windowHeight + containerDemension.height,
-        maxVideoMove,
-        ratioScroll,
-        topChange;
+        var windowHeight = window.innerHeight || document.documentElement.clientHeight,
+            videoDemension,
+            ratioScroll ,
+            maxScrollMove,
+            topChange;
 
 
-    videoDemension = getDemensions(video);
-    containerDemension = getDemensions(container);
-    maxVideoMove = videoDemension.height - containerDemension.height;
-    ratioScroll = maxVideoMove/maxScrollMove;
-    var left = -(videoDemension.width - containerDemension.width)/2;
-    topChange = Math.floor((containerDemension.top - windowHeight) * ratioScroll);
+        videoDemension = getDemensions(video);
+        var containerDemension = getDemensions(container);
+        maxScrollMove = windowHeight + containerDemension.height;
 
-        video.play();
+        var maxVideoMove = videoDemension.height - containerDemension.height;
+
+        ratioScroll = maxVideoMove/maxScrollMove;
+        var left = -(videoDemension.width - containerDemension.width)/2;
+        topChange = Math.floor((containerDemension.top - windowHeight) * ratioScroll);
         if(check3D) {
             var translate3D = 'translate3d('+left+'px, '+topChange+'px, 0px)';
             video.style.cssText =
@@ -39,7 +38,6 @@ function videoParallax(video,check3D) {
 
         }
     } else {
-        video.pause();
     }
 }
 
@@ -61,4 +59,12 @@ function check3D() {
 function getDemensions(video) {
     var rect = video.getBoundingClientRect();
     return rect;
+}
+
+function loadSize(video) {
+    var container = jQuery(video).parents(".video-parallax-container").first().get(0);
+    var containerDemension = getDemensions(container);
+    //document.getElementById("video0").style.height = containerDemension.width * 9/16 +"px";
+    video.height="715px";
+    console.log(containerDemension.width * 9/16 +"px");
 }
