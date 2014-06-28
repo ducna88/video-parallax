@@ -1,0 +1,44 @@
+.video-parallax-container .video-parallax-container-bg {
+  background-size: cover;
+  min-height: 300px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+.video-parallax-container .video-parallax-container-bg .video-parallax-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -2;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+}
+.video-parallax-container .video-parallax-container-bg iframe {
+  position: absolute;
+  z-index: -10;
+  height: 736.96px;
+  left: -188px;
+  max-height: 736.96px;
+  max-width: 1316px;
+  top: -188.48px;
+  visibility: visible;
+  width: 1316px;
+}
+.video-parallax-container .video-parallax-container-bg .video-bg {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: -10;
+  width: 100%;
+  height: auto  ;
+}
+.video-parallax-container .video-parallax-container-bg .video-bg video {
+  position: relative;
+  z-index: -11;
+  width: 100%;
+  height: 100%;
+  left: 0px;
+  top: -5px;
+}
