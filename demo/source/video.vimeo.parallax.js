@@ -52,7 +52,7 @@ function check3D() {
             ';-webkit-transform:' + translate3D +
             ';transform:' + translate3D;
     matches = divElm.style.cssText.match(/translate3d\(0px, 0px, 0px\)/g);
-    var support3d = matches !== null && matches.length === 1;
+    var support3d = matches !== null && matches.length >= 1;
     return support3d;
 }
 
@@ -65,6 +65,6 @@ function loadSize(video) {
     var container = jQuery(video).parents(".video-parallax-container").first().get(0);
     var containerDemension = getDemensions(container);
     //document.getElementById("video0").style.height = containerDemension.width * 9/16 +"px";
-    video.height="715px";
-    console.log(containerDemension.width * 9/16 +"px");
+    video.height=containerDemension.width * 9/16 * ratio +"px";
+    video.width = containerDemension.width * ratio +"px";
 }

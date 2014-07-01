@@ -52,7 +52,7 @@
                 ';transform:' + translate3D;
         matches = divElm.style.cssText.match(/translate3d\(0px, 0px, 0px\)/g);
 
-        var support3d = matches !== null && matches.length === 1;
+        var support3d = matches !== null && matches.length >= 1;
         return support3d;
     }
 
